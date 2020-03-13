@@ -1,8 +1,8 @@
 const databaseUser = require('../env.json');
 const { MongoClient } = require('mongodb');
-const ProvenDB = require('@southbanksoftware/provendb-node-driver');
+const ProvenDB = require('@southbanksoftware/provendb-node-driver').Database;
 
-const ProvenDB_URI = `mongodb://${databaseUser.user}:${databaseUser.password}@dako-coin.provendb.io/dako-coin?ssl=false`;
+const ProvenDB_URI = `mongodb://${databaseUser.user}:${databaseUser.password}@dako-coin.provendb.io/dako-coin?ssl=true`;
 let dbObject;
 let collection;
 let pdb;
@@ -15,6 +15,7 @@ MongoClient.connect(ProvenDB_URI, {
     dbObject = client.db('dako-coin');
     pdb = new ProvenDB(dbObject);
     collection = pdb.collection('provenIdeas');
+    console.log(collection);
   })
   .catch((e) => {
     console.log('Error connecting to ProvenDB');
@@ -23,7 +24,7 @@ MongoClient.connect(ProvenDB_URI, {
   });
 
 module.exports = {
-  getAllIdeas: idea => {
+  getAllIdeas: idea =>
     new Promise((resolve, reject) => {
       if (collection) {
         collection.find(idea).toArray((querryError, result) => {
@@ -33,11 +34,12 @@ module.exports = {
             resolve(result);
           }
         });
+      } else {
+        reject('Could not acquire collection');
       }
-    });
-  },
+    }),
 
-  proofNewIdea: idea => {
+  proofNewIdea: idea =>
     new Promise((resolve, reject) => {
       const newDocument = {
         idea,
@@ -64,6 +66,5 @@ module.exports = {
       } else {
         reject('Could not acquire collection');
       }
-    });
-  }
+    })
 };
