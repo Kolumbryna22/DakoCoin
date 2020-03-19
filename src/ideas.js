@@ -1,8 +1,8 @@
-const databaseUser = require('../env.json');
+const env = require('../env.json');
 const { MongoClient } = require('mongodb');
 const ProvenDB = require('@southbanksoftware/provendb-node-driver').Database;
 
-const ProvenDB_URI = `mongodb://${databaseUser.user}:${databaseUser.password}@dako-coin.provendb.io/dako-coin?ssl=true`;
+const ProvenDB_URI = `mongodb://${env.database.user}:${env.database.password}@dako-coin.provendb.io/dako-coin?ssl=false`;
 let dbObject;
 let collection;
 let pdb;
