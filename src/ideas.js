@@ -10,7 +10,7 @@ let pdb;
 MongoClient.connect(ProvenDB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  sslValidate: false,
+  sslValidate: false
 })
   .then((client) => {
     dbObject = client.db('dako-coin');
