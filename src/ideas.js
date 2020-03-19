@@ -2,14 +2,15 @@ const env = require('../env.json');
 const { MongoClient } = require('mongodb');
 const ProvenDB = require('@southbanksoftware/provendb-node-driver').Database;
 
-const ProvenDB_URI = `mongodb://${env.database.user}:${env.database.password}@dako-coin.provendb.io/dako-coin?ssl=false`;
+const ProvenDB_URI = `mongodb://${env.database.user}:${env.database.password}@dako-coin.provendb.io/dako-coin?ssl=true`;
 let dbObject;
 let collection;
 let pdb;
 
 MongoClient.connect(ProvenDB_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  sslValidate: false,
 })
   .then((client) => {
     dbObject = client.db('dako-coin');
