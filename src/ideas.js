@@ -16,7 +16,6 @@ MongoClient.connect(ProvenDB_URI, {
     dbObject = client.db('dako-coin');
     pdb = new ProvenDB(dbObject);
     collection = pdb.collection('provenIdeas');
-    console.log(collection);
   })
   .catch((e) => {
     console.log('Error connecting to ProvenDB');
@@ -55,7 +54,6 @@ module.exports = {
             pdb
               .submitProof()
               .then((result) => {
-                console.log(result);
                 resolve('New Proof created');
               })
               .catch((e) => {

@@ -1,12 +1,28 @@
+const env = require('./env.json');
 const ideas = require('./src/ideas.js');
 const express = require('express');
 const path = require('path');
 const app = express();
+const cors = require('cors');
+const multer  = require('multer')
+const upload = multer()
 
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
 
-app.get('/proveIt/:idea', (req, res) => {
-  const { idea } = req.params;
+app.post('/proveIt', upload.none(), (req, res) => {
+  const idea = req.body.idea;
+  const password = req.body.password;
+
+  if (password != env.password) {
+    res.status(401).send('Wrong password');
+
+    return 0;
+  }
 
   ideas
     .proofNewIdea(idea)
